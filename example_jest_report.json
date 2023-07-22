@@ -1,0 +1,33 @@
+{
+  "numFailedTestSuites": 5,
+  "numFailedTests": 5,
+  "numPassedTestSuites": 5,
+  "numPassedTests": 10,
+  "numPendingTestSuites": 5,
+  "numPendingTests": 5,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 15,
+  "numTotalTests": 20,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1582123327476,
+  "success": false,
+  "testResults": [],
+  "wasInterrupted": false
+}

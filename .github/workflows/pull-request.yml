@@ -1,0 +1,27 @@
+name: Build - Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - id: unit-report
+        uses: ./actions/jest-report
+        with:
+          results-name: Unit Test Report
+          results-json-path: ./example_jest_report.json
+          output:
+            summary
+            pr-comment
+            annotations

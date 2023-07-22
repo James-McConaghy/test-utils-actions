@@ -1,0 +1,76 @@
+name: 'Jest Report'
+description: 'Jest Report for the workflow run'
+inputs:
+  results-name:
+    default: 'Test Results'
+    description: 'The test results name'
+  results-json-path:
+    required: true
+    description: 'The path to the test results json'
+  output:
+    default: 'all'
+    description: 'Where the report will be displayed (all | pr-comment | summary | annotations)'
+
+runs:
+  using: 'composite'
+  steps:
+
+    - if: ${{ github.event_name == 'pull_request' && (contains(inputs.output, 'all') || contains(inputs.output, 'pr-comment')) }}
+      name: report
+      uses: actions/github-script@v6
+      with:
+        script: |
+
+          const formatTestValues = require('${{github.action_path}}/formatTestValues')
+          const json = require('${{ inputs.results-json-path }}')
+          const { failed, skipped, passed } = formatTestValues(json)
+          const outputs = `${{ inputs.output }}`
+
+          if (outputs.includes('all') || outputs.includes('pr-comment')) {
+            const tag = `<!-- jest-report: ${{ inputs.results-name }} -->`
+            const tableBody = `${tag}\n# ${{ inputs.results-name}}\n|Status|Result|\n|:---|---:|\n|Failed|${failed}|\n|Skipped|${skipped}|\n|Passed|${passed}|`
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.number,
+            })
+            const { id: existingComment } = comments.find(comment => comment.body.includes(tag)) || {}
+            
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment,
+                body: tableBody,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: tableBody,
+              })
+            }
+          }
+
+          if (outputs.includes('all') || outputs.includes('summary')) {
+            core.summary
+              .addHeading('${{ inputs.results-name }}')
+              .addTable([
+                [{data: 'Status', header: true}, {data: 'Result', header: true}],
+                ['Failed', failed],
+                ['Skipped', skipped],
+                ['Passed', passed]
+              ])
+              .write({overwrite: true})
+          }
+
+          if (outputs.includes('all') || outputs.includes('annotations')) {
+            if (json.numPendingTests > 0) {
+              core.warning(`${{ inputs.results-name }}: ${json.numPendingTests} skipped tests`)
+            }
+            if (json.numFailedTests > 0) {
+              core.error(`${{ inputs.results-name }}: ${json.numFailedTests} failed tests`)
+            }
+          }
