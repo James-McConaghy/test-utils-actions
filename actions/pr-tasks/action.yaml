@@ -1,0 +1,42 @@
+name: "pr-tasks"
+description: "Configure workflow execution from a pull request description with task designations"
+
+inputs:
+  checkbox-tasks: 
+    description: "The checkboxes you would like to anatomize for task designation"
+    required: true
+
+outputs:
+  tasks:
+    description: "A JSON object of designated tasks"
+    value: ${{ steps.anatomize-pr-tasks.outputs.result }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - id: anatomize-pr-tasks
+      name: anatomize PR tasks
+      uses: actions/github-script@v6
+      with:
+        script: |
+
+          const { body: description } = await github.rest.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.payload.number,
+          })
+
+          const checkboxTasks = `${{ inputs.checkbox-tasks }}`
+          const designatedTasks = checkboxTasks
+            .split("\n")
+            .map(task => {
+              const [key, ...labels] = task.split(":")
+              const label = labels.join(":")
+              if (description.includes(`[x] ${label}`)) {
+                return {[key]: true}
+              }
+              return {[key]: false}
+            })
+
+          return designatedTasks
