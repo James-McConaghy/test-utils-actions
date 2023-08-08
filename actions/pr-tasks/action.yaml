@@ -21,11 +21,15 @@ runs:
       with:
         script: |
 
-          const { body: description } = await github.rest.pulls.get({
+          console.log(context.payload.number)
+
+          const body = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo: context.repo.repo,
             pull_number: context.payload.number,
           })
+
+          console.log(body)
 
           const checkboxTasks = `${{ inputs.checkbox-tasks }}`
           const designatedTasks = checkboxTasks
@@ -33,7 +37,7 @@ runs:
             .map(task => {
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
-              if (description.includes(`[x] ${label}`)) {
+              if (body.includes(`[x] ${label}`)) {
                 return {[key]: true}
               }
               return {[key]: false}
