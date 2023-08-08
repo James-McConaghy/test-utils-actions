@@ -16,7 +16,15 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - id: pr-tasks
+        uses: ./actions/pr-tasks
+        with:
+          checkbox-tasks: |
+            run-unit-report:Run unit report?
+            run-hello-world:Run hello world?
+
       - id: unit-report
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == 'true' }}
         uses: ./actions/jest-report
         with:
           results-name: Unit Test Report
@@ -25,3 +33,8 @@ jobs:
             summary
             pr-comment
             annotations
+
+      - id: hello-world
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == 'true' }}
+        run: |
+          echo "hello world"
