@@ -27,27 +27,17 @@ runs:
             pull_number: context.payload.number,
           })
 
-          console.log(description)
-
           const checkboxTasks = `${{ inputs.checkbox-tasks }}`
-          
-          console.log(checkboxTasks)
-
-          const designatedTasks = checkboxTasks
+          const designatedTasks = {};
+          checkboxTasks
             .split("\n")
-            .map(task => {
-              console.log("task")
-              console.log(task)
+            .foreach(task => {
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
-              console.log(label)
-              console.log(`[x] ${label}`)
               if (description.includes(`[x] ${label}`)) {
-                console.log("included")
-                return {[key]: true}
+                designatedTasks[key] = true;
               }
-              console.log("not included")
-              return {[key]: false}
+              designatedTasks[key] = false;
             })
 
           console.log(JSON.stringify(designatedTasks))
