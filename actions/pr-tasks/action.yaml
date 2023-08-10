@@ -50,6 +50,6 @@ runs:
               return {[key]: false}
             })
 
-          console.log(designatedTasks)
+          console.log(JSON.stringify(designatedTasks))
 
-          return designatedTasks
+          return JSON.stringify(designatedTasks)
