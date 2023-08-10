@@ -27,6 +27,8 @@ runs:
             pull_number: context.payload.number,
           })
 
+          console.log(description)
+
           const checkboxTasks = `${{ inputs.checkbox-tasks }}`
           const designatedTasks = {};
           checkboxTasks
@@ -34,6 +36,9 @@ runs:
             .forEach(task => {
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
+
+              console.log(`[x] ${label}`)
+
               if (description.includes(`[x] ${label}`)) {
                 designatedTasks[key] = true;
               }
