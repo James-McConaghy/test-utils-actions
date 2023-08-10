@@ -30,7 +30,7 @@ jobs:
           echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
 
       - id: unit-report
-        if: steps.pr-tasks.outputs.tasks['run-unit-report'] == 'true'
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == true }}
         uses: ./actions/jest-report
         with:
           results-name: Unit Test Report
