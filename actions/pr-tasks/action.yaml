@@ -27,10 +27,11 @@ runs:
             pull_number: context.payload.number,
           })
 
+          const checkboxTasks = `${{ inputs.checkbox-tasks }}`
           console.log(checkboxTasks)
           console.log(checkboxTasks.split("\n"))
 
-          const checkboxTasks = `${{ inputs.checkbox-tasks }}`
+
           const designatedTasks = {};
           checkboxTasks
             .split("\n")
