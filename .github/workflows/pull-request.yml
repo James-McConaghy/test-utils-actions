@@ -24,7 +24,7 @@ jobs:
             run-hello-world:Run hello world?
 
       - id: unit-report
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == 'true' }}
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == true }}
         uses: ./actions/jest-report
         with:
           results-name: Unit Test Report
@@ -35,6 +35,6 @@ jobs:
             annotations
 
       - id: hello-world
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == 'true' }}
         run: |
+          echo "${{ steps.pr-tasks.outputs.tasks).run-hello-world }}"
           echo "hello world"
