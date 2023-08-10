@@ -43,4 +43,6 @@ runs:
               }
             })
 
+          console.log(designatedTasks)
+
           return designatedTasks

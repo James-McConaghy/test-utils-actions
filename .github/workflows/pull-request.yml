@@ -25,6 +25,7 @@ jobs:
             run-skipped-cmd:Run skipped cmd?
 
       - id: hello-world
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == true }}
         run: |
           echo "hello world"
           echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
