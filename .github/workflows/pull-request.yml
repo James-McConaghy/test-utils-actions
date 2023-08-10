@@ -28,7 +28,6 @@ jobs:
         if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == true }}
         run: |
           echo "hello world"
-          echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
 
       - id: unit-report
         if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == true }}
