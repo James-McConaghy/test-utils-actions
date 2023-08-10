@@ -32,7 +32,7 @@ jobs:
           echo "run-unit-report: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report }}"
 
       - id: unit-report
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == true }}
+        if: ${{ steps.pr-tasks.outputs.tasks['run-unit-report'] }}
         uses: ./actions/jest-report
         with:
           results-name: Unit Test Report
@@ -43,6 +43,7 @@ jobs:
             annotations
 
       - id: hello-world-after
+        if: ${{ steps.pr-tasks.outputs.tasks['run-hello-world'] }}
         run: |
           echo "${{ steps.pr-tasks.outputs.tasks }}"
           echo "hello world"
