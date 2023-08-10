@@ -31,7 +31,7 @@ runs:
           const designatedTasks = {};
           checkboxTasks
             .split("\n")
-            .foreach(task => {
+            .forEach(task => {
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
               if (description.includes(`[x] ${label}`)) {
