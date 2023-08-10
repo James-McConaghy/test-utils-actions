@@ -28,10 +28,6 @@ runs:
           })
 
           const checkboxTasks = `${{ inputs.checkbox-tasks }}`
-          console.log(checkboxTasks)
-          console.log(checkboxTasks.split("\n"))
-
-
           const designatedTasks = {};
           checkboxTasks
             .split("\n")
@@ -46,7 +42,5 @@ runs:
                 }
               }
             })
-
-          console.log(designatedTasks)
 
           return designatedTasks

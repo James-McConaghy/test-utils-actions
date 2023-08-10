@@ -22,14 +22,12 @@ jobs:
           checkbox-tasks: |
             run-unit-report:Run unit report?
             run-hello-world:Run hello world?
+            run-skipped-cmd:Run skipped cmd?
 
       - id: hello-world
         run: |
-          echo "${{ steps.pr-tasks.outputs.tasks }}"
+          echo "hello world"
           echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
-          echo "Parsed JSON: ${{ fromJSON(steps.pr-tasks.outputs.tasks) }}"
-          echo "run-hello-world: ${{ steps.pr-tasks.outputs.tasks['run-hello-world'] }}"
-          echo "run-unit-report: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report }}"
 
       - id: unit-report
         if: steps.pr-tasks.outputs.tasks['run-unit-report'] == 'true'
@@ -42,22 +40,8 @@ jobs:
             pr-comment
             annotations
 
-      - id: hello-world-aftera
-        if: steps.pr-tasks.outputs.tasks['run-hello-world']
+      - id: skipped-cmd
+        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-skipped-cmd == true }}
         run: |
-          echo "hello world"
-
-      - id: hello-world-afterb
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world }}
-        run: |
-          echo "hello world"
-
-      - id: hello-world-afterc
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == 'true' }}
-        run: |
-          echo "hello world"
-
-      - id: hello-world-afterd
-        if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-hello-world == true }}
-        run: |
-          echo "hello world"
+          echo "ran skipped cmd"
+          exit 1
