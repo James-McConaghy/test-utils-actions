@@ -26,9 +26,9 @@ jobs:
       - id: hello-world
         run: |
           echo "${{ steps.pr-tasks.outputs.tasks }}"
-          echo "hello world"
           echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
           echo "Parsed JSON: ${{ fromJSON(steps.pr-tasks.outputs.tasks) }}"
+          echo "run-hello-world: ${{ steps.pr-tasks.outputs.tasks['run-hello-world'] }}"
           echo "run-unit-report: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report }}"
 
       - id: unit-report
