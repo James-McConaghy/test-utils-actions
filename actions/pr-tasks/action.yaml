@@ -40,9 +40,11 @@ runs:
               console.log(`[x] ${label}`)
 
               if (description.includes(`[x] ${label}`)) {
+                console.log("true")
                 designatedTasks[key] = true;
+              } else {
+                designatedTasks[key] = false;
               }
-              designatedTasks[key] = false;
             })
 
           console.log(JSON.stringify(designatedTasks))
