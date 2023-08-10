@@ -49,4 +49,4 @@ runs:
 
           console.log(designatedTasks)
 
-          return JSON.stringify(designatedTasks)
+          return designatedTasks
