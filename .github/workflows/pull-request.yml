@@ -23,6 +23,14 @@ jobs:
             run-unit-report:Run unit report?
             run-hello-world:Run hello world?
 
+      - id: hello-world
+        run: |
+          echo "${{ steps.pr-tasks.outputs.tasks }}"
+          echo "hello world"
+          echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
+          echo "Parsed JSON: ${{ fromJSON(steps.pr-tasks.outputs.tasks) }}"
+          echo "run-unit-report: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report }}"
+
       - id: unit-report
         if: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report == true }}
         uses: ./actions/jest-report
@@ -38,3 +46,6 @@ jobs:
         run: |
           echo "${{ steps.pr-tasks.outputs.tasks }}"
           echo "hello world"
+          echo "pr-tasks outputs: ${{ steps.pr-tasks.outputs.tasks }}"
+          echo "Parsed JSON: ${{ fromJSON(steps.pr-tasks.outputs.tasks) }}"
+          echo "run-unit-report: ${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report }}"

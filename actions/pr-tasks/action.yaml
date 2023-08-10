@@ -38,10 +38,12 @@ runs:
             .forEach(task => {
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
-              if (description.includes(`[x] ${label}`)) {
-                designatedTasks[key] = true;
-              } else {
-                designatedTasks[key] = false;
+              if (label != "" && label != undefined && label != null) {
+                if (description.includes(`[x] ${label.trim()}`)) {
+                  designatedTasks[key] = true;
+                } else {
+                  designatedTasks[key] = false;
+                }
               }
             })
 
