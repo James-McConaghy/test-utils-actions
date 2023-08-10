@@ -43,8 +43,10 @@ runs:
               console.log(label)
               console.log(`[x] ${label}`)
               if (description.includes(`[x] ${label}`)) {
+                console.log("included")
                 return {[key]: true}
               }
+              console.log("not included")
               return {[key]: false}
             })
 
