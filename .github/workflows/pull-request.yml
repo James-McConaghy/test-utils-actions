@@ -37,5 +37,4 @@ jobs:
       - id: hello-world
         run: |
           echo "${{ steps.pr-tasks.outputs.tasks }}"
-          echo "${{ fromJSON(steps.pr-tasks.outputs.tasks).run-unit-report"
           echo "hello world"
