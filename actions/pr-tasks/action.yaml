@@ -36,8 +36,12 @@ runs:
           const designatedTasks = checkboxTasks
             .split("\n")
             .map(task => {
+              console.log("task")
+              console.log(task)
               const [key, ...labels] = task.split(":")
               const label = labels.join(":")
+              console.log(label)
+              console.log(`[x] ${label}`)
               if (description.includes(`[x] ${label}`)) {
                 return {[key]: true}
               }
