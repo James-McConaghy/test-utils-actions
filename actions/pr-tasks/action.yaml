@@ -21,8 +21,6 @@ runs:
       with:
         script: |
 
-          console.log(context.payload.number)
-
           const { data: { body: description } } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -32,6 +30,9 @@ runs:
           console.log(description)
 
           const checkboxTasks = `${{ inputs.checkbox-tasks }}`
+          
+          console.log(checkboxTasks)
+
           const designatedTasks = checkboxTasks
             .split("\n")
             .map(task => {
