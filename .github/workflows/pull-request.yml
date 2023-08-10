@@ -42,7 +42,7 @@ jobs:
             pr-comment
             annotations
 
-      - id: hello-world
+      - id: hello-world-after
         run: |
           echo "${{ steps.pr-tasks.outputs.tasks }}"
           echo "hello world"
